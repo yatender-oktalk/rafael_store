@@ -7,7 +7,7 @@ defmodule RafaelStore.Resolver.User do
   alias RafaelStore.Accounts
   alias RafaelStore.Accounts.User
 
-  def list_users(_, %{name: name}, _) do
+  def list_users(_, %{name: name, order_by: _order_by}, _) do
     {:ok, Accounts.get_user(%{name: name})}
   end
 
