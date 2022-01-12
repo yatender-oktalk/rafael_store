@@ -42,6 +42,6 @@ defmodule RafaelStoreWeb.Resolver.UserTest do
     conn = build_conn()
     conn = get conn, "/api", query: @query_name_filter_bad_val
     resp = json_response(conn, 200)
-    assert resp["data"] == nil
+    assert hd(resp["errors"])["message"] == "Argument \"name\" has invalid value 1234."
   end
 end
