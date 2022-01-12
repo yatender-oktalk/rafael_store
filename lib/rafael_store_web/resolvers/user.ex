@@ -1,4 +1,4 @@
-defmodule RafaelStore.Resolvers.User do
+defmodule RafaelStore.Resolver.User do
   @moduledoc """
   This module is the resolver for user related APIs of GraphQL
   """
@@ -7,7 +7,7 @@ defmodule RafaelStore.Resolvers.User do
   alias RafaelStore.Accounts
   alias RafaelStore.Accounts.User
 
-  def list_users(_, %{name: name}, _ ) do
+  def list_users(_, %{name: name}, _) do
     {:ok, Accounts.get_user(%{name: name})}
   end
 

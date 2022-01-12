@@ -4,11 +4,12 @@ defmodule RafaelStoreWeb.Schema do
   """
   use Absinthe.Schema
 
-  alias RafaelStore.Resolvers.User
+  alias RafaelStore.Resolver
+
   query do
     field :user_list, list_of(:user) do
-      arg :name, :string
-      resolve(&User.list_users/3)
+      arg(:name, :string)
+      resolve(&Resolver.User.list_users/3)
     end
   end
 
