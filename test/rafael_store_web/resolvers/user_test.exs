@@ -13,35 +13,29 @@ defmodule RafaelStoreWeb.Resolver.UserTest do
     %{}
   end
 
-  @query_name_filter """
-  query FetchUsers {
-    userList(name: "yatender-1") {
+  @query """
+  query FetchUsers($term: String) {
+    userList(name: $term) {
       name
       age
     }
   }
   """
 
-  @query_name_filter_bad_val """
-  query FetchUsers {
-    userList(name: 1234) {
-      name
-      age
-    }
-  }
-  """
+  @valid_term %{"term" => "yatender"}
+  @invalid_term %{"term" => 1234}
 
   test "user list test" do
     conn = build_conn()
-    conn = get conn, "/api", query: @query_name_filter
+    conn = get conn, "/api", query: @query, variables: @valid_term
     resp = json_response(conn, 200)
-    assert resp["data"] == %{"userList" => [%{"age" => "11", "name" => "yatender-1"}]}
+    assert resp["data"] == %{"userList" => [%{"age" => "10", "name" => "yatender"}]}
   end
 
   test "user list test when using the bad value" do
     conn = build_conn()
-    conn = get conn, "/api", query: @query_name_filter_bad_val
+    conn = get conn, "/api", query: @query, variables: @invalid_term
     resp = json_response(conn, 200)
-    assert hd(resp["errors"])["message"] == "Argument \"name\" has invalid value 1234."
+    assert resp["data"] == %{"userList" => nil}
   end
 end
