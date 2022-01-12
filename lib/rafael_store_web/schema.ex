@@ -3,14 +3,12 @@ defmodule RafaelStoreWeb.Schema do
   This module contains the GraphQL schema endpoints
   """
   use Absinthe.Schema
-  alias RafaelStore.Repo
-  alias RafaelStore.Accounts.User
 
+  alias RafaelStore.Resolvers.User
   query do
     field :user_list, list_of(:user) do
-      resolve(fn _, _, _ ->
-        {:ok, Repo.all(User)}
-      end)
+      arg :name, :string
+      resolve(&User.list_users/3)
     end
   end
 

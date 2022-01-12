@@ -37,6 +37,9 @@ defmodule RafaelStore.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_user(params) do
+    Repo.get_by(User, params)
+  end
   @doc """
   Creates a user.
 
