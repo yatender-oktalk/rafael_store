@@ -3,15 +3,32 @@ defmodule RafaelStore.Resolver.User do
   This module is the resolver for user related APIs of GraphQL
   """
 
-  alias RafaelStore.Repo
   alias RafaelStore.Accounts
   alias RafaelStore.Accounts.User
 
-  def list_users(_, %{name: name, order_by: _order_by}, _) do
-    {:ok, Accounts.get_user(%{name: name})}
+  import Ecto.Query
+  alias RafaelStore.Repo
+
+  def list_users(_, %{name: _name, order: _order} = filters, _) do
+    {:ok, build_query(filters)}
   end
 
   def list_users(_, _args, _) do
-    {:ok, Repo.all(User)}
+    {:ok, Accounts.list_users()}
+  end
+
+  def build_query(filters) do
+    filters
+    |> Enum.reduce(User, fn
+      {_, nil}, query ->
+        query
+
+      {:order, order}, query ->
+        from q in query, order_by: {^order, :name}
+
+      {:name, name}, query ->
+        from q in query, where: q.name == ^name
+    end)
+    |> Repo.all()
   end
 end

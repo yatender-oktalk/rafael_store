@@ -6,10 +6,15 @@ defmodule RafaelStoreWeb.Schema do
 
   alias RafaelStore.Resolver
 
+  @desc """
+  This query return the user data
+  we can either filter based on name
+  """
   query do
+    @desc "Returns the user list"
     field :user_list, list_of(:user) do
       arg(:name, :string)
-      arg(:order_by, :sort_order, default_value: :asc)
+      arg(:order, :sort_order, default_value: :asc)
       resolve(&Resolver.User.list_users/3)
     end
   end
@@ -23,7 +28,7 @@ defmodule RafaelStoreWeb.Schema do
   end
 
   enum :sort_order do
-    value :asc
-    value :desc
+    value(:asc)
+    value(:desc)
   end
 end
