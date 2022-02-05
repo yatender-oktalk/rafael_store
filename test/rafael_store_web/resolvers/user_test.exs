@@ -36,6 +36,6 @@ defmodule RafaelStoreWeb.Resolver.UserTest do
     conn = build_conn()
     conn = get conn, "/api", query: @query, variables: @invalid_term
     resp = json_response(conn, 200)
-    assert resp["data"] == %{"userList" => nil}
+    assert resp["data"] == %{"userList" => []}
   end
 end

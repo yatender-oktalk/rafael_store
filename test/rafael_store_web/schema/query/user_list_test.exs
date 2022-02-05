@@ -33,6 +33,16 @@ defmodule RafaelStoreWeb.Schema.Query.UserListTest do
   }
   """
 
+  @query_name_2 """
+  query FetchUsers($name: String, $order: SortOrder) {
+    userList(name: $name, order: $order) {
+      name
+      age
+      insertedAt
+    }
+  }
+  """
+
   test "users list returns all the users" do
     conn = build_conn()
     conn = get conn, "/api", query: @query
@@ -53,5 +63,12 @@ defmodule RafaelStoreWeb.Schema.Query.UserListTest do
     conn = get(conn, "/api", query: @query_name, variables: %{name: "yatender", order: "DESC"})
     resp = json_response(conn, 200)
     assert %{"userList" => [%{"age" => "10", "name" => "yatender"}]} == resp["data"]
+  end
+
+  test "filter by name by user input with different resp" do
+    conn = build_conn()
+    conn = get(conn, "/api", query: @query_name_2, variables: %{name: "yatender", order: "DESC"})
+    resp = json_response(conn, 200)
+    assert %{"userList" => [%{"age" => "10", "name" => "yatender", "insertedAt" => _}]} = resp["data"]
   end
 end
