@@ -39,6 +39,7 @@ defmodule RafaelStoreWeb.Schema.Query.UserListTest do
       name
       age
       insertedAt
+
     }
   }
   """
