@@ -12,5 +12,6 @@ defmodule RafaelStoreWeb.Schema do
   """
   query do
     import_fields :user_queries
+    import_fields :blog_queries
   end
 end

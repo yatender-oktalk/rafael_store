@@ -15,9 +15,21 @@ defmodule RafaelStoreWeb.GraphQL.Schema.MenuTypes do
     end
   end
 
+  object :blog_queries do
+    field :blog_list, list_of(:blogs) do
+      arg(:filter, :blog_filter)
+      arg(:order, :sort_order, default_value: :asc)
+      resolve(&Resolver.Blog.list_blog/3)
+    end
+  end
 
   input_object :user_filter do
     field :phone, :string
+  end
+
+  input_object :blog_filter do
+    field :name, :string
+    field :user_id, :id
   end
 
   object :user do
@@ -25,6 +37,14 @@ defmodule RafaelStoreWeb.GraphQL.Schema.MenuTypes do
     field :age, :string
     field :name, :string
     field :phone, :string
+    field :inserted_at, :date
+  end
+
+  object :blogs do
+    field :id, :id
+    field :name, :string
+    field :text, :string
+    field :user_id, :id
     field :inserted_at, :date
   end
 

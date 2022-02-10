@@ -58,7 +58,6 @@ defmodule RafaelStoreWeb.Schema.Query.UserListTest do
            }
   end
 
-  @tag :wips
   test "filter by name by user input" do
     conn = build_conn()
     conn = get(conn, "/api", query: @query_name, variables: %{"filter" => %{"phone" => "8105139417"}, "order" => "DESC"})
