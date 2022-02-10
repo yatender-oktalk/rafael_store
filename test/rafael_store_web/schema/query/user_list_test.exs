@@ -25,8 +25,8 @@ defmodule RafaelStoreWeb.Schema.Query.UserListTest do
   """
 
   @query_name """
-  query FetchUsers($name: String, $order: SortOrder) {
-    userList(name: $name, order: $order) {
+  query FetchUsers($filter: UserFilter, $order: SortOrder) {
+    userList(filter: $filter, order: $order) {
       name
       age
     }
@@ -34,12 +34,11 @@ defmodule RafaelStoreWeb.Schema.Query.UserListTest do
   """
 
   @query_name_2 """
-  query FetchUsers($name: String, $order: SortOrder) {
-    userList(name: $name, order: $order) {
+  query FetchUsers($filter: UserFilter, $order: SortOrder) {
+    userList(filter: $filter, order: $order) {
       name
       age
       insertedAt
-
     }
   }
   """
@@ -59,16 +58,17 @@ defmodule RafaelStoreWeb.Schema.Query.UserListTest do
            }
   end
 
+  @tag :wips
   test "filter by name by user input" do
     conn = build_conn()
-    conn = get(conn, "/api", query: @query_name, variables: %{name: "yatender", order: "DESC"})
+    conn = get(conn, "/api", query: @query_name, variables: %{"filter" => %{"phone" => "8105139417"}, "order" => "DESC"})
     resp = json_response(conn, 200)
     assert %{"userList" => [%{"age" => "10", "name" => "yatender"}]} == resp["data"]
   end
 
   test "filter by name by user input with different resp" do
     conn = build_conn()
-    conn = get(conn, "/api", query: @query_name_2, variables: %{name: "yatender", order: "DESC"})
+    conn = get(conn, "/api", query: @query_name_2, variables: %{"filter" => %{"phone" => "8105139417"}, "order" => "DESC"})
     resp = json_response(conn, 200)
     assert %{"userList" => [%{"age" => "10", "name" => "yatender", "insertedAt" => _}]} = resp["data"]
   end

@@ -14,16 +14,16 @@ defmodule RafaelStoreWeb.Resolver.UserTest do
   end
 
   @query """
-  query FetchUsers($term: String) {
-    userList(name: $term) {
+  query FetchUsers($term: UserFilter) {
+    userList(filter: $term) {
       name
       age
     }
   }
   """
 
-  @valid_term %{"term" => "yatender"}
-  @invalid_term %{"term" => 1234}
+  @valid_term %{"term" => %{"phone" => "8105139417"}}
+  @invalid_term %{"term" => %{"phone" => "81051394"}}
 
   test "user list test" do
     conn = build_conn()

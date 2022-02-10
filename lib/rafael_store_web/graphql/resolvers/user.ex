@@ -9,7 +9,7 @@ defmodule RafaelStore.Resolver.User do
   import Ecto.Query
   alias RafaelStore.Repo
 
-  def list_users(_, %{name: _name, order: _order} = filters, _) do
+  def list_users(_, %{filter: _filter, order: _order} = filters, _) do
     {:ok, build_query(filters)}
   end
 
@@ -17,18 +17,19 @@ defmodule RafaelStore.Resolver.User do
     {:ok, Accounts.list_users()}
   end
 
-  def build_query(filters) do
-    filters
+  def build_query(%{filter: filter, order: order}) do
+    filter
     |> Enum.reduce(User, fn
       {_, nil}, query ->
         query
 
-      {:order, order}, query ->
-        from q in query, order_by: {^order, :name}
-
       {:name, name}, query ->
         from q in query, where: q.name == ^name
+
+      {:phone, phone}, query ->
+        from q in query, where: q.phone == ^phone
     end)
+    |> order_by([q], {^order, q.inserted_at})
     |> Repo.all()
   end
 end
