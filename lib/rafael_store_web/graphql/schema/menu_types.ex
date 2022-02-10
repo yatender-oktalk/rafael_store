@@ -5,6 +5,17 @@ defmodule RafaelStoreWeb.GraphQL.Schema.MenuTypes do
 
   use Absinthe.Schema.Notation
 
+  alias RafaelStore.Resolver
+
+  object :user_queries do
+    field :user_list, list_of(:user) do
+      arg(:filter, :user_filter)
+      arg(:order, :sort_order, default_value: :asc)
+      resolve(&Resolver.User.list_users/3)
+    end
+  end
+
+
   input_object :user_filter do
     field :phone, :string
   end
