@@ -7,6 +7,8 @@ defmodule RafaelStore.Accounts.User do
     field :name, :string
     field :phone, :string
 
+    has_many :blogs, RafaelStore.Accounts.Blogs
+
     timestamps()
   end
 

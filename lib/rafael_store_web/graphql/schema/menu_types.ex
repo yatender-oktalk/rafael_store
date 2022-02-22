@@ -23,6 +23,23 @@ defmodule RafaelStoreWeb.GraphQL.Schema.MenuTypes do
     end
   end
 
+  object :category do
+    field :name, :string
+    field :items
+  end
+  # object :search_query do
+  #   field :search, list_of(:search_results) do
+  #     arg :matching,  non_null(:string)
+  #     resolve(&Resolver.Search.search/1)
+  #   end
+  # end
+
+  object :blog do
+    field :name, :string
+    field :text, :string
+
+  end
+
   input_object :user_filter do
     field :phone, :string
   end

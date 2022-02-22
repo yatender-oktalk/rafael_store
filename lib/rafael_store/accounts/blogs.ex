@@ -5,7 +5,10 @@ defmodule RafaelStore.Accounts.Blogs do
   schema "blogs" do
     field :name, :string
     field :text, :string
-    field :user_id, :id
+
+    belongs_to :user, RafaelStore.Accounts.User
+    belongs_to :category, RafaelStore.Menu.Category
+    belongs_to :tag, RafaelStore.Menu.Tag
 
     timestamps()
   end
