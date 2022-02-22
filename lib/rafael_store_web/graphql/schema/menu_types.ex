@@ -7,6 +7,9 @@ defmodule RafaelStoreWeb.GraphQL.Schema.MenuTypes do
 
   alias RafaelStore.Resolver
 
+  alias RafaelStore.Accounts.Blogs
+  alias RafaelStore.Menu.Category
+
   object :user_queries do
     field :user_list, list_of(:user) do
       arg(:filter, :user_filter)
@@ -25,14 +28,27 @@ defmodule RafaelStoreWeb.GraphQL.Schema.MenuTypes do
 
   object :category do
     field :name, :string
-    field :items
+    field :items, list_of(:blogs) do
+      resolve(&Resolver.Search.search/3)
+    end
   end
-  # object :search_query do
-  #   field :search, list_of(:search_results) do
-  #     arg :matching,  non_null(:string)
-  #     resolve(&Resolver.Search.search/1)
-  #   end
-  # end
+
+  union :search_results do
+    types [:blogs, :category]
+
+    resolve_type fn
+      %Category{}, _ -> :category
+      %Blogs{}, _ -> :blogs
+      _, _ -> nil
+    end
+  end
+
+  object :search_query do
+    field :search, list_of(:search_results) do
+      arg :matching,  non_null(:string)
+      resolve(&Resolver.Search.search/3)
+    end
+  end
 
   object :blog do
     field :name, :string

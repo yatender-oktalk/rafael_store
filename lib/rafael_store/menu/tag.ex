@@ -5,7 +5,8 @@ defmodule RafaelStore.Menu.Tag do
   schema "tags" do
     field :name, :string
 
-    has_many :blogs, RafaelStore.Accounts.Blogs
+    many_to_many :blogs, RafaelStore.Accounts.Blogs, join_through: "blogs_taggings"
+
     timestamps()
   end
 

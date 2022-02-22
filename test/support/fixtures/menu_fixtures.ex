@@ -31,4 +31,18 @@ defmodule RafaelStore.MenuFixtures do
 
     tag
   end
+
+  @doc """
+  Generate a blog_tags.
+  """
+  def blog_tags_fixture(attrs \\ %{}) do
+    {:ok, blog_tags} =
+      attrs
+      |> Enum.into(%{
+
+      })
+      |> RafaelStore.Menu.create_blog_tags()
+
+    blog_tags
+  end
 end

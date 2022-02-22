@@ -197,4 +197,100 @@ defmodule RafaelStore.Menu do
   def change_tag(%Tag{} = tag, attrs \\ %{}) do
     Tag.changeset(tag, attrs)
   end
+
+  alias RafaelStore.Menu.BlogTags
+
+  @doc """
+  Returns the list of blogs_taggins.
+
+  ## Examples
+
+      iex> list_blogs_taggins()
+      [%BlogTags{}, ...]
+
+  """
+  def list_blogs_taggins do
+    Repo.all(BlogTags)
+  end
+
+  @doc """
+  Gets a single blog_tags.
+
+  Raises `Ecto.NoResultsError` if the Blog tags does not exist.
+
+  ## Examples
+
+      iex> get_blog_tags!(123)
+      %BlogTags{}
+
+      iex> get_blog_tags!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_blog_tags!(id), do: Repo.get!(BlogTags, id)
+
+  @doc """
+  Creates a blog_tags.
+
+  ## Examples
+
+      iex> create_blog_tags(%{field: value})
+      {:ok, %BlogTags{}}
+
+      iex> create_blog_tags(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_blog_tags(attrs \\ %{}) do
+    %BlogTags{}
+    |> BlogTags.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a blog_tags.
+
+  ## Examples
+
+      iex> update_blog_tags(blog_tags, %{field: new_value})
+      {:ok, %BlogTags{}}
+
+      iex> update_blog_tags(blog_tags, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_blog_tags(%BlogTags{} = blog_tags, attrs) do
+    blog_tags
+    |> BlogTags.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a blog_tags.
+
+  ## Examples
+
+      iex> delete_blog_tags(blog_tags)
+      {:ok, %BlogTags{}}
+
+      iex> delete_blog_tags(blog_tags)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_blog_tags(%BlogTags{} = blog_tags) do
+    Repo.delete(blog_tags)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking blog_tags changes.
+
+  ## Examples
+
+      iex> change_blog_tags(blog_tags)
+      %Ecto.Changeset{data: %BlogTags{}}
+
+  """
+  def change_blog_tags(%BlogTags{} = blog_tags, attrs \\ %{}) do
+    BlogTags.changeset(blog_tags, attrs)
+  end
 end

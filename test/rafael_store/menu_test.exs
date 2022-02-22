@@ -110,4 +110,56 @@ defmodule RafaelStore.MenuTest do
       assert %Ecto.Changeset{} = Menu.change_tag(tag)
     end
   end
+
+  describe "blogs_taggins" do
+    alias RafaelStore.Menu.BlogTags
+
+    import RafaelStore.MenuFixtures
+
+    @invalid_attrs %{}
+
+    test "list_blogs_taggins/0 returns all blogs_taggins" do
+      blog_tags = blog_tags_fixture()
+      assert Menu.list_blogs_taggins() == [blog_tags]
+    end
+
+    test "get_blog_tags!/1 returns the blog_tags with given id" do
+      blog_tags = blog_tags_fixture()
+      assert Menu.get_blog_tags!(blog_tags.id) == blog_tags
+    end
+
+    test "create_blog_tags/1 with valid data creates a blog_tags" do
+      valid_attrs = %{}
+
+      assert {:ok, %BlogTags{} = blog_tags} = Menu.create_blog_tags(valid_attrs)
+    end
+
+    test "create_blog_tags/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Menu.create_blog_tags(@invalid_attrs)
+    end
+
+    test "update_blog_tags/2 with valid data updates the blog_tags" do
+      blog_tags = blog_tags_fixture()
+      update_attrs = %{}
+
+      assert {:ok, %BlogTags{} = blog_tags} = Menu.update_blog_tags(blog_tags, update_attrs)
+    end
+
+    test "update_blog_tags/2 with invalid data returns error changeset" do
+      blog_tags = blog_tags_fixture()
+      assert {:error, %Ecto.Changeset{}} = Menu.update_blog_tags(blog_tags, @invalid_attrs)
+      assert blog_tags == Menu.get_blog_tags!(blog_tags.id)
+    end
+
+    test "delete_blog_tags/1 deletes the blog_tags" do
+      blog_tags = blog_tags_fixture()
+      assert {:ok, %BlogTags{}} = Menu.delete_blog_tags(blog_tags)
+      assert_raise Ecto.NoResultsError, fn -> Menu.get_blog_tags!(blog_tags.id) end
+    end
+
+    test "change_blog_tags/1 returns a blog_tags changeset" do
+      blog_tags = blog_tags_fixture()
+      assert %Ecto.Changeset{} = Menu.change_blog_tags(blog_tags)
+    end
+  end
 end
